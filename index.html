@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VOCO Python Akadeemia</title>
+    <!-- Google Fonts modernseks tüpograafiaks ja koodikirjaks -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Taustadekoor ja valgusefektid -->
+    <div class="glow-bg-1"></div>
+    <div class="glow-bg-2"></div>
+    <div class="app-container">
+        <!-- RAKENDUSE PÄIS -->
+        <header class="app-header">
+            <div class="logo" id="header-logo">
+                <span class="logo-icon">⚡</span>
+                <div class="logo-text">
+                    <h1>VOCO Python</h1>
+                    <p>Tarkvaraarenduse ettevalmistus</p>
+                </div>
+            </div>
+            
+            <div class="user-stats">
+                <div class="stat-badge xp-badge" title="Kogemuspunktid">
+                    <span class="stat-icon">💎</span>
+                    <span id="total-xp">0</span> <span class="stat-label">XP</span>
+                </div>
+                <div class="stat-badge streak-badge" title="Õpipäevade jada">
+                    <span class="stat-icon">🔥</span>
+                    <span id="streak-days">1</span> <span class="stat-label">päev</span>
+                </div>
+                <button id="reset-progress-btn" class="icon-btn" title="Lähtesta progress">🔄</button>
+            </div>
+        </header>
+        <!-- PEALINE SISUALA -->
+        <main class="main-content">
+            <!-- 1. KAARDIVAADE (ROADMAP) -->
+            <section id="roadmap-view" class="view active">
+                <div class="roadmap-header">
+                    <h2>Õpiteekond</h2>
+                    <p>Labi tasemed, et valmistuda tarkvaraarendaja erialaks VOCO-s. Iga tase koosneb viiest etapist!</p>
+                </div>
+                <div class="map-container">
+                    <div class="map-path-line"></div>
+                    <div id="levels-list" class="levels-map">
+                        <!-- Tasemed genereeritakse dünaamiliselt JS-is -->
+                    </div>
+                </div>
+                <div class="dashboard-stats">
+                    <div class="dashboard-card profile-card">
+                        <h3>Sinu Profiil</h3>
+                        <div class="profile-details">
+                            <div class="detail-item">
+                                <span class="detail-title">Staatus:</span>
+                                <span id="user-status" class="status-glow">Algaja Koodi-Pioneeri</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-title">Läbitud tasemed:</span>
+                                <span id="completed-levels-count">0 / 11</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dashboard-card info-card">
+                        <h3>VOCO Tarkvaraarendus</h3>
+                        <p>VOCO (Tartu Rakenduslik Kolledž) tarkvaraarendaja erialal on Python üks esimesi keeli, mida õpid. See mäng annab sulle edumaa, tehes koodiloogika selgeks enne esimest tundi!</p>
+                    </div>
+                    <div class="dashboard-card exam-card">
+                        <h3>Teadmiste testid</h3>
+                        <p>Soovi korral saad teha eraldi koondtesti tasemete 1-5 või 5-10 teadmiste peale.</p>
+                        <div class="exam-actions">
+                            <button id="exam-1-5" class="secondary-btn">Teadmiste test 1-5</button>
+                            <button id="exam-5-10" class="secondary-btn">Teadmiste test 5-10</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- 2. MÄNGUVAADE -->
+            <section id="game-view" class="view">
+                <div class="game-header">
+                    <button id="back-to-map-btn" class="back-btn">← Tagasi kaardile</button>
+                    <div class="level-info-container">
+                        <h2 id="current-level-title">Tase 1: Muutujad</h2>
+                        <div class="step-progress-wrapper">
+                            <div class="step-dots" id="step-dots-container">
+                                <div class="step-dot active" data-step="1" title="Teooria">1</div>
+                                <div class="step-dot" data-step="2" title="Läbikirjutamine">2</div>
+                                <div class="step-dot" data-step="3" title="Meenutamine">3</div>
+                                <div class="step-dot" data-step="4" title="Sorteerimine">4</div>
+                                <div class="step-dot" data-step="5" title="Lõpptest">5</div>
+                            </div>
+                            <div class="step-progress-line-bg">
+                                <div class="step-progress-line-fill" id="step-progress-fill"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="game-layout">
+                    <!-- Vasak paneel: Selgitused ja juhendid -->
+                    <div class="instructions-panel glass-panel">
+                        <div class="instruction-header">
+                            <span class="step-badge" id="step-name-badge">Samm 1/5: Teooria</span>
+                            <h3 id="instruction-title">Muutujad ja Andmetüübid</h3>
+                        </div>
+                        <div class="instruction-body" id="instruction-text">
+                            <!-- Dünaamiline tekst ja selgitused -->
+                        </div>
+                        <div id="theory-interactive-area" class="interactive-area">
+                            <!-- Visualiseerimised teooria jaoks -->
+                        </div>
+                    </div>
+                    <!-- Parem paneel: Koodiredaktor ja konsool -->
+                    <div class="editor-panel glass-panel">
+                        <div class="editor-header">
+                            <div class="editor-tabs">
+                                <span class="tab active"><span class="tab-icon">🐍</span> main.py</span>
+                            </div>
+                            <div class="editor-actions">
+                                <span class="editor-dot red"></span>
+                                <span class="editor-dot yellow"></span>
+                                <span class="editor-dot green"></span>
+                            </div>
+                        </div>
+                        <div class="editor-workspace">
+                            <!-- Ridade numbrid -->
+                            <div class="line-numbers" id="editor-line-numbers">
+                                <span>1</span>
+                                <span>2</span>
+                                <span>3</span>
+                            </div>
+                            
+                            <!-- Koodi kirjutamise ala -->
+                            <div class="code-area-container">
+                                <!-- Trükkimise tagasiside kiht (tühi tekst, mis kuvab õiged/valed tähed) -->
+                                <div class="code-overlay" id="editor-overlay"></div>
+                                <textarea id="code-editor" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="# Kirjuta kood siia..."></textarea>
+                                
+                                <!-- Sorteerimise etapi ala (peidetakse teistes etappides) -->
+                                <div id="sorting-workspace" class="hidden">
+                                    <div class="sorting-slots" id="sorting-slots-container">
+                                        <!-- Kohad kuhu klotsid kukuvad -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Mobiili lisaklahvid koodi kiiremaks kirjutamiseks -->
+                        <div class="mobile-keyboard-helpers" id="keyboard-helpers">
+                            <button class="helper-key" data-char='='>=</button>
+                            <button class="helper-key" data-char='"'>""</button>
+                            <button class="helper-key" data-char=':'>:</button>
+                            <button class="helper-key" data-char='('>(</button>
+                            <button class="helper-key" data-char=')'>)</button>
+                            <button class="helper-key" data-char='+'>+</button>
+                            <button class="helper-key" data-char='['>[</button>
+                            <button class="helper-key" data-char=']'>]</button>
+                            <button class="helper-key" data-char='Tab'>Tab</button>
+                        </div>
+                        <!-- Sorteerimise klotside ala (peidetakse teistes etappides) -->
+                        <div id="sorting-blocks-container" class="sorting-blocks hidden">
+                            <!-- Segamini sümbolid ja sõnad -->
+                        </div>
+                        <!-- Konsooli aken tulemuste näitamiseks -->
+                        <div class="console-box">
+                            <div class="console-header">Konsooli väljund</div>
+                            <div class="console-body" id="console-output">
+                                > Vajuta koodi käivitamiseks...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Alumine juhtpaneel tagasiside ja nuppudega -->
+                <div class="action-footer" id="action-footer">
+                    <div class="feedback-message hidden" id="feedback-message">
+                        <span class="feedback-icon" id="feedback-icon">🎉</span>
+                        <div class="feedback-text-wrapper">
+                            <h4 id="feedback-title">Suurepärane!</h4>
+                            <p id="feedback-desc">Kood töötab täpselt nii nagu peab.</p>
+                        </div>
+                    </div>
+                    <div class="action-buttons">
+                        <button id="hint-btn" class="secondary-btn hidden">💡 Vihje</button>
+                        <button id="run-code-btn" class="primary-btn pulse">Käivita kood ▶</button>
+                        <button id="next-step-btn" class="primary-btn hidden">Edasi ➔</button>
+                        
+                        <!-- Vead/Kordamine nupud, mis ilmuvad ebaõnnestumisel viimasel sammul -->
+                        <div id="fail-options" class="hidden">
+                            <button id="retry-step-btn" class="secondary-btn">🔄 Õpi uuesti</button>
+                            <button id="skip-step-btn" class="danger-btn">➔ Mine edasi</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+    <!-- Edukuse modal / tähistamine -->
+    <div id="success-overlay" class="success-overlay hidden">
+        <div class="success-card glass-panel">
+            <div class="badge-glow">🏆</div>
+            <h2>Tase Läbitud!</h2>
+            <p id="success-level-summary">Sa õppisid selgeks muutujad ja nende printimise.</p>
+            <div class="reward-xp">+<span id="level-reward-xp">100</span> XP</div>
+            <button id="continue-game-btn" class="primary-btn">Jätka õpiteekonda</button>
+        </div>
+        <!-- Siia tekivad JS-is konfetiosakesed -->
+        <canvas id="confetti-canvas"></canvas>
+    </div>
+    <!-- Scriptid -->
+    <script src="app.js"></script>
+</body>
+</html>
